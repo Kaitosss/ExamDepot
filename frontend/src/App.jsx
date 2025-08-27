@@ -16,6 +16,7 @@ import SearchExam from "./pages/SearchExam";
 import EditUser from "./pages/EditUser";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserHome from "./pages/UserHome";
+import DetailExamUser from "./pages/DetailExamUser";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -55,11 +56,12 @@ function AppRoutes() {
           </ProtectedRoute>
           } />
           <Route path="/user/home" element={
-            <ProtectedRoute role={"user"}>
+            <ProtectedRoute role={"student"}>
               <UserHome />
             </ProtectedRoute>
           }/>
 
+        <Route path="/detailexam/:id" element={<ProtectedRoute role={"student"}><DetailExamUser/></ProtectedRoute>} />
         <Route path="/login" element={!authUser ? <Login /> : <Navigate to={"/"} />} />
         <Route path="/profile" element={!authUser ? <Navigate to={"/login"} /> : <Profile />} />
         <Route path="/newpassword" element={!authUser ? <Navigate to={"/login"} /> : <NewPassword />} /> 

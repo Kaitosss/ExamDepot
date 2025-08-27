@@ -27,10 +27,10 @@ function TableExam() {
       return "/pdf.png"
     case "doc":
     case "docx":
-      return "/word.png"
+      return "/doc.png"
     case "xls":
     case "xlsx":
-      return "/excel.png"
+      return "/xls.png"
     }
   }
 
@@ -105,7 +105,7 @@ function TableExam() {
           <th>{
           data.description ? data.description.length > 20 ? data.description.slice(0,120) + "..." : data.description : "-"
           }</th>
-          <th className="flex justify-center">
+          <th className="flex justify-center items-center mt-4">
             {!data.fileUrl ? "-" : (
               <a href={!data.fileUrl ? null : data.downloadUrl} rel="noopener noreferrer" download={data.downloadUrl}>
                <img src={getFileIcon(data.fileUrl)} alt="" className="size-14 object-cover"/>

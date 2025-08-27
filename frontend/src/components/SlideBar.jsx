@@ -31,7 +31,7 @@ function SlideBar() {
           <div>
              <Link className={`${path == "/user/home" ? "bg-primary/30" : ""}
             flex justify-center gap-2 hover:bg-primary/10 transition-all ease-in w-[250px] p-3 rounded-2xl font-semibold`}
-            to={"/"}><House size={22}/> หน้าแรก</Link>
+            to={"/"}><NotebookText size={22}/> ข้อสอบ</Link>
           </div>
         )}
       </div>

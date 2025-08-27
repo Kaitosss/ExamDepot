@@ -245,3 +245,14 @@ export const getLatestexam = async (req,res) => {
         res.status(500).json({ error: "ข้อผิดพลาดเซิร์ฟเวอร์ภายใน" });
     }
 }
+
+
+export const getExams = async (req,res) => {
+    try {
+        const exams = await Exams.find()
+
+        res.status(200).json(exams)
+    } catch (error) {
+        res.status(500).json({ error: "ข้อผิดพลาดเซิร์ฟเวอร์ภายใน" });
+    }
+}

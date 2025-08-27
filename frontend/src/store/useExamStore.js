@@ -137,6 +137,15 @@ const useExamStore = create((set,get) => ({
         } catch (error) {
             toast.error(error.response.data.error)
         }
+    },
+    getExams:async () => {
+        try {
+            const response = await apiReq.get("/exam/exams")
+
+            set({examData:response.data})
+        } catch (error) {
+            toast.error(error.response.data.error)
+        }
     }
 }))
 
