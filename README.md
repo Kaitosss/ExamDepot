@@ -8,7 +8,7 @@ An Exam Management Web Application built with React Frontend Bun Express Backend
 
 Download or clone this repo by using the link below:
 
-    https://github.com/Kaitosss/exam-bank.git
+    https://github.com/Kaitosss/ExamDepot.git
 
 **Step2: Install dependencies**
 
