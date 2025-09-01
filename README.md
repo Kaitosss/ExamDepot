@@ -3,17 +3,21 @@
 An Exam Management Web Application built with React Frontend Bun Express Backend npm and MongoDB Database This system allows users to manage search and download exam questions easily.
 
 ## How to Use
+
 **Step1: Clone the repository**
+
 Download or clone this repo by using the link below:
 
     https://github.com/Kaitosss/exam-bank.git
 
 **Step2: Install dependencies**
+
 Go to the project root and run the following command to install both frontend and backend dependencies:
 
     bun install --cwd frontend && npm install --prefix backend
     
 **Step3: Configure environment variables**
+
 Create a `.env` file inside the **backend** folder with the following content:
 
     PORT=8000
