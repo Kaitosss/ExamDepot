@@ -32,8 +32,8 @@ Create a `.env` file inside the **backend** folder with the following content:
 
 Start frontend (React + Bun):
 
-    bun run --cwd frontend dev
+    bun run --cwd ExamDepot/frontend dev
 
 Start backend (Express + npm):
 
-    npm start --prefix backend
+    npm start --prefix ExamDepot/backend
