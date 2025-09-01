@@ -14,6 +14,7 @@ Download or clone this repo by using the link below:
 
 Go to the project root and run the following command to install both frontend and backend dependencies:
 
+    cd ExamDepot
     bun install --cwd frontend && npm install --prefix backend
     
 **Step3: Configure environment variables**
