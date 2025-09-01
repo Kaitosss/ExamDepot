@@ -133,6 +133,8 @@ export const updateUserById = async (req,res) => {
         const {
             profilePic,
             username,
+            password,
+            role,
             department,
             level,
             year,
@@ -141,6 +143,12 @@ export const updateUserById = async (req,res) => {
 
         let newProfilePicUrl = profilePic
         const existingUser = req.file
+
+        const user = await User.findOne({username,_id:{$ne:id}})
+
+        if(user){
+            return res.status(400).json({error:"มีชื่อผู้ใช้นี้แล้ว"})
+        }
 
         if(existingUser){
             const result = await cloudinary.uploader.upload(existingUser.path,{
@@ -155,11 +163,16 @@ export const updateUserById = async (req,res) => {
             fs.unlinkSync(existingUser.path)
         }
 
+        const salt = await bcryptjs.genSalt(10)
+        const hashPassword = await bcryptjs.hash(password,salt)
+
         await User.findByIdAndUpdate(
             id,
             {
                 profilePic:newProfilePicUrl,
                 username,
+                password:hashPassword,
+                role,
                 department,
                 level,
                 year,
@@ -216,6 +229,46 @@ export const getLatestUser = async (req,res) => {
         const userId = req.user._id
 
         const users = await User.find({_id:{$ne:userId}}).sort({createdAt: -1 }).limit(5).select("-password")
+
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).json({error:"ข้อผิดพลาดเซิร์ฟเวอร์ภายใน"}) 
+    }
+}
+
+export const searchUser = async (req,res) => {
+    try {
+        const {
+            username,
+            department,
+            fullname,
+            year,
+            level
+        } = req.body
+
+        const orConditions = []
+
+        if (username) {
+            orConditions.push({ username: { $regex: username, $options: "i" } })
+        }
+        if (fullname) {
+            orConditions.push({ fullname: { $regex: fullname, $options: "i" } })
+        }
+        if (department) {
+            orConditions.push({ department: department.trim() })
+        }
+        if (year) {
+            orConditions.push({ year: Number(year) })
+        }
+        if (level) {
+            orConditions.push({ level: level.trim() })
+        }
+
+
+     const users = orConditions.length > 0 
+            ? await User.find({ $or: orConditions })  
+            : await User.find()
+
 
         res.status(200).json(users)
     } catch (error) {

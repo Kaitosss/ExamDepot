@@ -8,6 +8,7 @@ const useUserStore = create((set,get) => ({
     isUpdatingProfile:false,
     isUpdatingPassword:false,
     isAddingUsers:false,
+    isSearchUser:false,
     userData:null,
     isUpdatingUser:null,
     user:null,
@@ -130,6 +131,19 @@ const useUserStore = create((set,get) => ({
             set({LatestUser:response.data})
         } catch (error) {
             toast.error(error.response.data.error)
+        }
+    },
+    searchUser:async (data) => {
+        set({isSearchUser:true})
+        try {
+            const response = await apiReq.post("/user/search",data)
+
+            set({userData:response.data})
+        } catch (error) {
+            toast.error(error.response.data.error)
+        }
+        finally{
+            set({isSearchUser:false})
         }
     }
 }))

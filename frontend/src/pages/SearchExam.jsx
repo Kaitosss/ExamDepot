@@ -21,10 +21,10 @@ function SearchExam() {
       return "/pdf.png"
     case "doc":
     case "docx":
-      return "/word.png"
+      return "/doc.png"
     case "xls":
     case "xlsx":
-      return "/excel.png"
+      return "/xls.png"
     }
   }
 
@@ -39,7 +39,11 @@ function SearchExam() {
 
   return (
     <div className="m-12">
-      <button className="btn" onClick={() => {navigate("/manageexam"),setBackPage()}}><ChevronLeft size={15}/>Back</button>
+     <div className="flex items-center justify-between gap-3">
+       <button className="btn" onClick={() => {navigate("/manageexam"),setBackPage()}}><ChevronLeft size={15}/>Back</button>
+
+      <p className="font-semibold">ข้อสอบที่พบ : {examSearchData?.total || 0}</p>
+     </div>
 
       <dialog id="my_modal_1" className="modal">
     <div className="modal-box">

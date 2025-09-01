@@ -17,6 +17,8 @@ const useExamStore = create((set,get) => ({
     isSearchPage:false,
     examCount:0,
     Latestexam:null,
+    loading:false,
+    isSearchExam:false,
     setBackPage:() => set({isSearchPage:false,lastFilter:null}),
     uploadExam:async(data) => {
         set({isAddingExams:true})
@@ -145,6 +147,29 @@ const useExamStore = create((set,get) => ({
             set({examData:response.data})
         } catch (error) {
             toast.error(error.response.data.error)
+        }
+    },
+    getExamUser:async (id) => {
+        set({loading:true})
+        try {
+            const response = await apiReq.get(`/exam/examuser/${id}`)
+
+            set({exams:response.data,loading:false})
+        } catch (error) {
+            toast.error(error.response.data.error)
+        }
+    },
+    searchExamUser:async (data) => {
+        set({isSearchExam:true})
+        try {
+            const response = await apiReq.post("/exam/search/user",data)
+
+            set({examData:response.data})
+        } catch (error) {
+            toast.error(error.response.data.error)
+        }
+        finally{
+            set({isSearchExam:false})
         }
     }
 }))

@@ -11,6 +11,8 @@ function EditUser() {
     const defaultData = {
         profilePic:"",
         username:"",
+        password:"",
+        role:"",
         department:"",
         level:"",
         year:1,
@@ -19,7 +21,6 @@ function EditUser() {
 
     const [userData,setUserData] = useState(defaultData)
     const [selectImg,setSelectImg] = useState(null)
-
 
     useEffect(() => {
         getUser(id)
@@ -33,6 +34,7 @@ function EditUser() {
             department:user?.department || "",
             level:user?.level || "",
             year:user?.year || 1,
+            role:user?.role || "",
             fullname:user?.fullname || ""
         }))
     },[user])
@@ -87,7 +89,7 @@ function EditUser() {
             </label>
         </div>
 
-             <div className="grid grid-cols-3 ">
+             <div className="grid grid-cols-3">
 
              <div className="mt-7">
                 <label className="fieldset-label mt-1 mb-2">
@@ -101,6 +103,29 @@ function EditUser() {
                 className="input input-bordered w-[250px] focus:outline-none focus:ring-0 focus:border-primary pl-2"
                 />
             </div>
+
+            <div className="mt-7">
+                <label className="fieldset-label mt-1 mb-2">
+                    <span className="label font-medium text-xs">รหัสผ่าน</span>
+                </label>
+                   
+                <input 
+                name="password"
+                onChange={ChangeData}
+                value={userData?.password || ""}
+                className="input input-bordered w-[250px] focus:outline-none focus:ring-0 focus:border-primary pl-2"
+                />
+            </div>
+
+            <div className="mt-7">
+                 <label className="fieldset-label mt-1 mb-2">
+                <span className="label font-semibold text-xs">สิทธิ์ผู้ใช้งาน</span>
+              </label>
+            <select value={userData?.role} onChange={ChangeData} name="role" className="select w-[250px] focus:outline-none focus:ring-0 focus:border-primary">
+            <option value={"student"}>นักเรียน</option>
+            <option value={"admin"}>ผู้ดูแลระบบ</option>
+          </select>
+          </div>
         
         <div className="mt-7">
                 <label className="fieldset-label mt-1 mb-2">

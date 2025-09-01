@@ -143,7 +143,7 @@ function TableExam() {
      <div className="mt-2 flex justify-center">
     <div className="join">
       <button className="join-item btn" onClick={handlePrev}>«</button>
-      <button className="join-item btn">{page} / {totalPage}</button>
+      <button className="join-item btn">{page} / {totalPage || totalPage == 0 ? 1 : totalPage}</button>
       <button className="join-item btn" onClick={handleNext}>»</button>
     </div>
 </div>

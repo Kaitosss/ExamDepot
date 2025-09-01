@@ -23,11 +23,11 @@ function TableUser() {
           </div>
         </dialog>
 
-       <div className="mt-5 grid grid-cols-4 overflow-y-auto h-[700px]">
+       <div className="mt-3 grid grid-cols-4 overflow-y-auto h-[700px]">
         {userData?.map((data,index) => (
             <div key={index}>
                <div className="flex flex-col justify-center items-center group transition-all ease-in
-                 hover:scale-90 shadow-2xl rounded-2xl">
+                 hover:scale-90 shadow-2xl rounded-2xl mt-3 mb-3">
                  <img src={data?.profilePic ? data?.profilePic : "/avatar.jpg"} alt="" className="size-24 object-cover rounded-full"/>
                 <p className="mt-3 text-sm">{data?.fullname}</p>
                 <div className="flex gap-3">

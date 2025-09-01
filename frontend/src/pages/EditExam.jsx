@@ -164,7 +164,7 @@ function EditExam() {
                     <span className="label font-medium text-xs">ลิ้งข้อสอบ</span>
                 </label>
                    
-                <input value={examsData?.examLink || "-"} 
+                <input value={examsData?.examLink || ""} 
                 name="examLink"
                 onChange={ChangeData}
                 className="input input-bordered w-[250px] focus:outline-none focus:ring-0 focus:border-primary pl-2"

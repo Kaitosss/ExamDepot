@@ -1,4 +1,4 @@
-import { LoaderCircle, UserRoundPlus } from "lucide-react"
+import { LoaderCircle, UserRoundPlus,Search  } from "lucide-react"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { z } from "zod"
@@ -18,9 +18,18 @@ function ManageUser() {
     role:"" || "student"
   }
 
+  const defaultSearchData = {
+    username:"",
+    department:"",
+    fullname:"",
+    year:"" || 1,
+    level:"" || "ปวช"
+  }
+
   const [dataUser,setDataUser] = useState(defaultUserState)
   const [selectImage,setSelectImage] = useState(null)
-  const {AddUser,isAddingUsers,getUsers} = useUserStore()
+  const {AddUser,isAddingUsers,getUsers,isSearchUser,searchUser} = useUserStore()
+  const [searchData,setSearchData] = useState(defaultSearchData)
 
   useEffect(() => {
     getUsers()
@@ -29,6 +38,11 @@ function ManageUser() {
   const ChangeUserData = (e) => {
     const {name,value} = e.target
     setDataUser((prev) => ({...prev,[name]:name == "year" ? Number(value) : value}))
+  }
+
+  const ChangeSearchData = (e) => {
+    const {name,value} = e.target
+    setSearchData((prev) => ({...prev,[name]:name == "year" ? Number(value) : value}))
   }
 
   const handleuploadImg = (e) => {
@@ -88,12 +102,102 @@ function ManageUser() {
     }
   }
 
+  const handleSearch = () => {
+    searchUser(searchData)
+    setSearchData(defaultSearchData)
+    document.getElementById("my_modal_4").close()
+  }
+
   return (
     <div className="m-5">
       <p className="text-4xl font-semibold">จัดการผู้ใช้งาน</p>
 
-      <div>   
-        <button className="btn mt-3" onClick={()=>document.getElementById('my_modal_3').showModal()}><UserRoundPlus size={15}/>เพิ่มผู้ใช้</button>
+      <div>       
+            <div className="flex gap-4 items-center">
+               <button className="btn mt-3" onClick={()=>document.getElementById('my_modal_3').showModal()}><UserRoundPlus size={15}/>เพิ่มผู้ใช้</button>
+               <button className="btn mt-3" onClick={()=>document.getElementById('my_modal_4').showModal()}><Search size={15}/>ค้นหาผู้ใช้</button>
+            </div>
+
+            <dialog id="my_modal_4" className="modal">
+              <div className="modal-box">
+                <form method="dialog">
+                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>   
+                 <div className="grid grid-cols-2">
+                  <div className="mt-7">
+                 <label className="fieldset-label mt-1 mb-2">
+                <span className="label font-semibold text-xs">ชื่อผู้ใช้</span>
+              </label>
+              <div className="w-[200px]">
+                <input 
+                value={searchData.username || ""}
+                onChange={ChangeSearchData}
+                name="username"
+                className="input input-bordered w-full focus:outline-none focus:ring-0 focus:border-primary pl-3"
+                />
+              </div>
+            </div>
+
+             <div className="mt-7">
+                 <label className="fieldset-label mt-1 mb-2">
+                <span className="label font-semibold text-xs">แผนกวิชา</span>
+              </label>
+              <div className="w-[200px]">
+                <input 
+                value={searchData.department || ""}
+                onChange={ChangeSearchData}
+                name="department"
+                className="input input-bordered w-full focus:outline-none focus:ring-0 focus:border-primary pl-3"
+                />
+              </div>
+            </div>
+
+             <div className="mt-7">
+                 <label className="fieldset-label mt-1 mb-2">
+                <span className="label font-semibold text-xs">ชื่อ-นามสกุล</span>
+              </label>
+              <div className="w-[200px]">
+                <input 
+                value={searchData.fullname || ""}
+                onChange={ChangeSearchData}
+                name="fullname"
+                className="input input-bordered w-full focus:outline-none focus:ring-0 focus:border-primary pl-3"
+                />
+              </div>
+            </div>
+
+            <div className="mt-7">
+                 <label className="fieldset-label mt-1 mb-2">
+                <span className="label font-semibold text-xs">ชั้นปี</span>
+              </label>
+            <select value={searchData.year} onChange={ChangeSearchData} name="year" className="select w-[200px] focus:outline-none focus:ring-0 focus:border-primary">
+            <option value={1}>ปี 1</option>
+            <option value={2}>ปี 2</option>
+            <option value={3}>ปี 3</option>
+          </select>
+          </div>
+
+            <div className="mt-7">
+                 <label className="fieldset-label mt-1 mb-2">
+                <span className="label font-semibold text-xs">ระดับชั้น</span>
+              </label>
+            <select value={searchData.level} onChange={ChangeSearchData} name="level" className="select w-[200px] focus:outline-none focus:ring-0 focus:border-primary">
+            <option value={"ปวช"}>ปวช</option>
+            <option value={"ปวส"}>ปวส</option>
+          </select>
+          </div>
+        </div>
+
+         <button className="mt-7 btn btn-primary w-full hover:drop-shadow-base-content
+        duration-200 transition-all ease-in" onClick={handleSearch}>
+        <p>{isSearchUser ? <LoaderCircle className="size-5 animate-spin"/> : "ค้นหาผู้ใช้งาน"}</p>
+       </button>
+
+       </div>
+    </dialog>
+
+
+
             <dialog id="my_modal_3" className="modal">
             <div className="modal-box">
               <form method="dialog">

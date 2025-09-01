@@ -2,6 +2,7 @@ import cloudinary from "../lib/cloudinary.js"
 import fs from "fs"
 import Exams from "../models/exams.model.js"
 import { examsWithDownloadUrl } from "../utils/examsDownloadUrl.js"
+import { examWithDownloadUrl } from "../utils/examDownloadUrl.js"
 
 export const uploadExam = async (req,res) => {
     try {
@@ -78,7 +79,6 @@ export const getPagination = async (req,res) => {
         const total = await Exams.countDocuments()
         const exams = await Exams.find().skip(skip).limit(limit).populate("uploadedBy","username profilePic")
 
-
         const totalPages = Math.ceil(total / limit)
 
         const examsUrl =  examsWithDownloadUrl(exams)
@@ -132,7 +132,8 @@ export const updateExam = async (req, res) => {
             subject: Coursename,
             term,
             externalUrl: examLink,
-            description
+            description,
+            originalFileName:examfile?.originalname
         };
 
         if (examfile) {
@@ -252,6 +253,68 @@ export const getExams = async (req,res) => {
         const exams = await Exams.find()
 
         res.status(200).json(exams)
+    } catch (error) {
+        res.status(500).json({ error: "ข้อผิดพลาดเซิร์ฟเวอร์ภายใน" });
+    }
+}
+
+export const getExamUser = async (req,res) => {
+    try {
+        const {id} = req.params
+        const exam = await Exams.findById(id).populate("uploadedBy","username profilePic")
+
+        const examsDownloadUrl = examWithDownloadUrl(exam)
+
+        res.status(200).json(examsDownloadUrl)
+    } catch (error) {
+        res.status(500).json({ error: "ข้อผิดพลาดเซิร์ฟเวอร์ภายใน" });
+    }
+}
+
+
+export const searchExamUser = async (req,res) => {
+    try {
+        const {
+            title,
+            department,
+            year,
+            subject,
+            level,
+            schoolYear
+        } = req.body
+
+
+         const orConditions = [] 
+
+         if(title){
+            orConditions.push({title:title.trim()})
+         }
+
+         if(department){
+            orConditions.push({department:department.trim()})
+         }
+
+         if(year){
+            orConditions.push({year:Number(year)})
+         }
+
+         if(subject){
+            orConditions.push({subject:{$regex:subject,$options:"i"}})
+         }
+
+         if(level){
+            orConditions.push({level:level.trim()})
+         }
+
+         if(schoolYear){
+            orConditions.push({schoolYear:schoolYear.trim()})
+         }
+
+         const exams = orConditions.length > 0 
+         ? await Exams.find({$or:orConditions})
+         : await Exams.find()
+
+         res.status(200).json(exams)
     } catch (error) {
         res.status(500).json({ error: "ข้อผิดพลาดเซิร์ฟเวอร์ภายใน" });
     }
