@@ -11,7 +11,7 @@ import NewPassword from "./pages/NewPassword";
 import SlideBar from "./components/SlideBar"; 
 import ManageUser from "./pages/ManageUser";
 import EditExam from "./pages/EditExam";
-import ManagExams from "./pages/Managexams";
+import ManagExams from "./pages/ManagExams";
 import SearchExam from "./pages/SearchExam";
 import EditUser from "./pages/EditUser";
 import ProtectedRoute from "./components/ProtectedRoute";
