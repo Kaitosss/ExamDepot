@@ -28,7 +28,7 @@ Create a `.env` file inside the **backend** folder with the following content:
     CLOUDINARY_API_KEY=your_cloudinary_api_key
     CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
-**Step 4: Create and run `seed.js` to populate the database**
+**Step4: Create and run `seed.js` to populate the database**
 
 Before running the app, you need to add initial data to your MongoDB database.
 
@@ -46,7 +46,7 @@ Before running the app, you need to add initial data to your MongoDB database.
 	    const  profilePic  =  "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
 	    const  salt  =  await bcryptjs.genSalt(10);
 	    const  hashpassword  =  await bcryptjs.hash(password, salt);
-	    const  user  =  new  Users({
+	    const  user  =  new Users({
 	    username,
 	    password: hashpassword,
 	    role,
